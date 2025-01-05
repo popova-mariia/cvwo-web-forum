@@ -15,6 +15,8 @@ func main() {
 		log.Fatalf("Failed to connect to DB: %v", err)
 	}
 	defer db.DB.Close()
+	log.Print("printing DB")
+	log.Print(err)
 
 	// Migrate / ensure tables
 	err = db.Migrate()
