@@ -6,8 +6,7 @@ import (
 	"github.com/popova-mariia/cvwo-web-forum/internal/middleware"
 )
 
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+func SetupRouter(r *gin.Engine) *gin.Engine {
 
 	// Public routes
 	r.POST("/users", controllers.CreateUser)

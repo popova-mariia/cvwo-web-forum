@@ -1,15 +1,31 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import '../style/Login.css';
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log({ username, password });
-        setUsername("");
-        setPassword("");
+        try {
+            console.log("Login submitted");
+            const response = await axios.post('http://localhost:8080/login', { username, password });
+            console.log('Login successful:', response.data);
+            // Store the username in local storage or context
+            localStorage.setItem('username', username);
+            // Redirect to the thread page
+            navigate('/threads');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error('Error logging in:', error.response?.data || error.message);
+                console.error('Error details:', error.toJSON());
+            } else {
+                console.error('Unexpected error:', error);
+            }
+        }
     };
 
     return (
