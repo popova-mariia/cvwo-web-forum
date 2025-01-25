@@ -123,7 +123,7 @@ func RegisterUser(c *gin.Context) {
 	}
 
 	// Insert into DB
-	query := `INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id`
+	query := `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id`
 	err = db.DB.QueryRow(query, newUser.Username, string(hashedPassword)).Scan(&newUser.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -143,7 +143,7 @@ func LoginUser(c *gin.Context) {
 	}
 
 	var storedHash string
-	query := `SELECT password_hash FROM users WHERE username=$1`
+	query := `SELECT password FROM users WHERE username=$1`
 	err := db.DB.QueryRow(query, loginData.Username).Scan(&storedHash)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
