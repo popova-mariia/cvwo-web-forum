@@ -3,6 +3,7 @@ package controllers
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -167,12 +168,11 @@ func LoginUser(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create token"})
 		return
 	}
 
 	c.SetCookie("token", tokenString, 3600*24, "/", "localhost", false, true)
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
+	log.Println("Token set:", tokenString)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }

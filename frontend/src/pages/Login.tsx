@@ -13,7 +13,7 @@ const Login = () => {
         try {
             console.log("Login submitted");
             const response = await axios.post('http://localhost:8080/login', { username, password });
-            console.log('Login successful:', response.data);
+            console.log('Login successful:', response);
             // Store the username in local storage or context
             localStorage.setItem('username', username);
             // Redirect to the thread page
